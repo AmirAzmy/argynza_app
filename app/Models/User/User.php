@@ -3,6 +3,7 @@
 namespace App\Models\User;
 
 use App\Exceptions\NoPermissionException;
+use App\Models\Project\Project;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,6 +19,7 @@ class User extends Authenticatable
     use Notifiable, HasApiTokens;
     use SoftDeletes;
 
+    private $types = [5 => 'employee', 4 => 'direct manger', 3 => 'project manger', 2 => 'HR', 1 => 'general manger'];
     /**
      * The attributes that are mass assignable.
      *
@@ -25,9 +27,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'phone', 'password', 'verification_code',
-        "image", "active", "phone", "phone_verified_at"
+        'project_id', "image", "active", "phone", "phone_verified_at"
     ];
-
+    protected $appends = ['user_type'];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -84,6 +86,11 @@ class User extends Authenticatable
         return ($value) ? url('uploads/'.$value) : url('/user_avatar.png');
     }
 
+    public function getUserTypeAttribute()
+    {
+        return ($this->types[$this->type]) ?? 'employee'.$this->type;
+    }
+
     public function setVerificationCodeAttribute($value)
     {
 
@@ -96,5 +103,10 @@ class User extends Authenticatable
     public function AauthAcessToken()
     {
         return $this->hasMany(OauthAccessToken::class);
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 }

@@ -13,10 +13,12 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class AuthService
 {
-    public function login(Request $request)
+    public function login(Request $request, $types = [3, 4, 5])
     {
-        $user = User::select('id', 'name', 'phone', "image", "password", "active", "phone", "phone_verified_at")
+        $user = User::select('id', 'name', 'phone', "image", "password",
+            "active", "phone", "phone_verified_at", 'type', "project_id")
             ->where('phone', $request->phone)
+            ->whereIn('type', $types)
             ->first();
         if (!$user) {
             throw new BadRequestHttpException(Lang::get('messages.invalid_username_or_password'));

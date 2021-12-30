@@ -7,7 +7,7 @@
             <h3 class="signin-title-secondary">قم بتسجيل الدخول للمتابعة.</h3>
 
             <div class="form-group">
-                <input type="text" v-model="form.email" @keyup.enter="submit()" class="form-control" placeholder="أدخل بريدك الإلكتروني">
+                <input type="text" v-model="form.phone" @keyup.enter="submit()" class="form-control" placeholder="أدخل بريدك الإلكتروني">
             </div><!-- form-group -->
             <div class="form-group mg-b-50">
                 <input v-model="form.password" @keyup.enter="submit()" type="password" class="form-control" placeholder="ادخل كلمه المرور">

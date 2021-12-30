@@ -30,7 +30,7 @@ class ForgetPasswordRequest extends FormRequest
                 return $this->forgetValidation();
             case 'reset':
                 return $this->resetValidation();
-            case 'resend-code':
+            case 'resend':
                 return $this->resend();
             default:
                 return [];
