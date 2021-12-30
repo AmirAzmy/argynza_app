@@ -12,6 +12,18 @@ Route::group([
     });
 
     Route::group([
+        'prefix' => 'user',
+    ], function () {
+        Route::get('/', 'UserController@index');
+        Route::get('/logged', 'UserController@loggedUser');
+        Route::post('/create', 'UserController@create');
+        Route::put('update', 'UserController@update');
+        Route::delete('/{id}/delete', 'UserController@delete');
+        Route::get('profile', 'UserController@profile');
+        Route::post('change-password', 'UserController@changePassword');
+    });
+
+    Route::group([
         'prefix' => 'auth',
     ], function () {
         Route::post('login', 'AuthController@login');

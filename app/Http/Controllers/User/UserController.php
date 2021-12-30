@@ -10,22 +10,92 @@ use Illuminate\Support\Facades\Response;
 
 class UserController extends Controller
 {
-    private $userService;
+    private $service;
 
-    public function __construct(UserServices $userServices)
+    public function __construct(UserServices $service)
     {
-        $this->userService = $userServices;
+        $this->middleware('auth:api');
+        $this->service = $service;
     }
 
-    public function create(UserRequest $userRequest)
+    /**
+     * create new user
+     * @param  UserRequest  $request
+     * @return mixed
+     */
+    public function create(UserRequest $request)
     {
-        $service = $this->userService->create($userRequest);
+        $service = $this->service->create($request);
         return Response::successResponse($service);
     }
 
-    public function update(UserRequest $userRequest, $id)
+    /**
+     * update user data
+     * @param  UserRequest  $request
+     * @return mixed
+     */
+    public function update(UserRequest $request)
     {
-        $service = $this->userService->update($userRequest, $id);
+        $service = $this->service->update($request);
         return Response::successResponse($service);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function delete($id)
+    {
+        $this->authorize('adminOnly');
+        $service = $this->service->delete($id);
+        if (!$service) {
+            return Response::errorResponse($service);
+        }
+        return Response::successResponse($service);
+    }
+
+    /**
+     * return users
+     * @param  UserRequest  $request
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function index(UserRequest $request)
+    {
+        $this->authorize('adminOnly');
+        $service = $this->service->index($request);
+        return Response::successResponse($service);
+    }
+
+    /**
+     * user profile
+     * @return mixed
+     */
+    public function profile(Request $request)
+    {
+        $service = $this->service->profile($request);
+        return Response::successResponse($service);
+    }
+
+    /**
+     * change user Password
+     * @param  UserRequest  $request
+     * @return mixed
+     */
+    public function changePassword(UserRequest $request)
+    {
+        $service = $this->service->changePassword($request);
+        return Response::successResponse($service);
+    }
+
+    /**
+     * get current logged user
+     * @return mixed
+     */
+    public function loggedUser()
+    {
+        $result = $this->service->loggedUser();
+        return Response::successResponse($result);
     }
 }
