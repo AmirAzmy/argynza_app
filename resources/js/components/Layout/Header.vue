@@ -7,7 +7,7 @@
                 </h2>
 
                 <div class="search-box">
-                    <input type="text" @keyup.enter="search()" v-model="search_key" class="form-control" placeholder="ابحث عن فيديوهات">
+                    <input type="text" @keyup.enter="search()" v-model="search_key" class="form-control" placeholder="ابحث عن الموظفين">
                     <button @click="search()" class="btn btn-primary"><i class="fa fa-search"></i></button>
                 </div><!-- search-box -->
             </div><!-- slim-header-left -->
@@ -117,7 +117,7 @@
                     });
             },
             search() {
-                this.$router.push('/admin/video?keyword=' + this.search_key);
+                this.$router.push('/admin/user?keyword=' + this.search_key);
             },
         }
     }

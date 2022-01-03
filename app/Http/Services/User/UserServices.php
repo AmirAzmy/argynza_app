@@ -83,8 +83,8 @@ class UserServices
     public function loggedUser()
     {
         $user = User::select(
-            'id', 'name', 'email', 'username', 'phone', 'show_phone',
-            'phone_verified_at', 'active', 'special', 'type', 'image',
+            'id', 'name', 'phone', 'password', 'verification_code',
+            'project_id', "image", "active", "phone", "phone_verified_at",
             'created_at'
         )->where('id', Auth::id())
             ->first();

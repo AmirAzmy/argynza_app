@@ -12,7 +12,7 @@ Route::group([
     });
 
     Route::group([
-        'prefix' => 'user',
+        'prefix' => 'users',
     ], function () {
         Route::get('/', 'UserController@index');
         Route::get('/logged', 'UserController@loggedUser');
@@ -46,6 +46,12 @@ Route::group([
         Route::post('resend', 'VerificationController@resend');
         Route::post('check', 'VerificationController@checkCode');
     });
+});
+
+Route::group([
+    "prefix" => "home",
+], function () {
+    Route::get("dashboard", "HomeController@dashboard");
 });
 
 Route::group([

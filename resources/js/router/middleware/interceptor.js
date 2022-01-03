@@ -6,7 +6,9 @@ function logoutFun(cond) {
     if (cond) {
         console.log('arrival');
         store.dispatch('logout');
-        router.push('/admin/login')
+        if (router.currentRoute.path!='/admin/login'){
+            router.push('/admin/login')
+        }
     }
 }
 

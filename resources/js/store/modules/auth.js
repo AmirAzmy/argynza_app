@@ -23,9 +23,9 @@ export default {
     },
     actions: {
         async login({dispatch}, credentials) {
-            credentials['type'] = 1;
+            // credentials['type'] = 1;
             let response = await axios.post('/admin/login', credentials);
-            dispatch('addName', response.data.data.name);
+            // dispatch('addName', response.data.data.name);
             return dispatch('attempt', response.data.data.token);
         },
         async attempt({commit, state}, token) {
@@ -36,7 +36,7 @@ export default {
                 return
             }
             try {
-                let res = await axios.get('/user/logged');
+                let res = await axios.get('/users/logged');
                 commit('SET_USER', res.data.data)
             }catch {
                 commit('SET_USER', null);
@@ -55,7 +55,7 @@ export default {
             }
         },
         logout({commit}) {
-            return axios.post('/admin/logout')
+            return axios.post('/auth/logout')
                 .then(() => {
                     commit('SET_TOKEN', null);
                     commit('SET_USER', null);

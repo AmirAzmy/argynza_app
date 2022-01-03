@@ -63,7 +63,7 @@ class UserController extends Controller
      */
     public function index(UserRequest $request)
     {
-        $this->authorize('adminOnly');
+//        $this->authorize('adminOnly');
         $service = $this->service->index($request);
         return Response::successResponse($service);
     }

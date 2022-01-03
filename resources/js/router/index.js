@@ -7,10 +7,10 @@ Vue.use(VueRouter);
 import Home from '../views/Home'
 import Content from "../components/Layout/Content";
 
-import VideoIndex from "../views/Video/Index"
-import VideoCreate from "../views/Video/Create"
-import VideoEdit from "../views/Video/Edit"
-import VideoComment from "../views/Video/Comments"
+import UserIndex from "../views/User/Index"
+import UserCreate from "../views/User/Create"
+import UserEdit from "../views/User/Edit"
+import UserComment from "../views/User/Comments"
 
 import TagIndex from "../views/Tag/Index"
 import TagCreate from "../views/Tag/Create"
@@ -46,25 +46,25 @@ function configRoutes() {
             ]
         },
         {
-            path: "/admin/video",
+            path: "/admin/user",
             component: Content,
             meta: {requiresAuth: true},
             children: [
                 {
                     path: '/',
-                    component: VideoIndex,
+                    component: UserIndex,
                 },
                 {
                     path: 'create',
-                    component: VideoCreate,
+                    component: UserCreate,
                 },
                 {
                     path: 'edit/:id',
-                    component: VideoEdit,
+                    component: UserEdit,
                 },
                 {
                     path: ':id/comments',
-                    component: VideoComment,
+                    component: UserComment,
                 },
             ]
         },

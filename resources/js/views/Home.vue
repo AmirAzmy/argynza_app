@@ -169,7 +169,7 @@
         },
         methods: {
             dashboardHome() {
-                axios.get('/others/dashboard-home')
+                axios.get('/home/dashboard')
                     .then(response => {
                         this.items = response.data.data;
                     })

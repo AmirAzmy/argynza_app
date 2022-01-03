@@ -20,8 +20,8 @@
             return {
                 navItems: [
                     {name: 'الرئيسية', icon: 'icon ion-ios-home-outline', route: '/admin', active: 1},
-                    {name: ' الفيديوهات ', icon: 'icon ion-ios-videocam', route: '/admin/video', active: 0},
-                    {name: ' التاج ', icon: 'icon ion-ios-pricetags', route: '/admin/tag', active: 0},
+                    {name: ' الموظفيين ', icon: 'icon fas fa-user-tie', route: '/admin/user', active: 0},
+                    // {name: ' التاج ', icon: 'icon ion-ios-pricetags', route: '/admin/tag', active: 0},
                 ]
             }
         },
