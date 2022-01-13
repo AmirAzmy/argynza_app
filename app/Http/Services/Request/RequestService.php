@@ -26,6 +26,19 @@ class RequestService
     {
         return EmpRequest::where('id', $id)
             ->with('lateAndLeave', 'loan', 'errand', 'vacation')
-            ->first();
+            ->firstOrFail();
+    }
+
+    public function index(Request $request)
+    {
+        $empRequests = EmpRequest::select('id', 'notes', 'type', 'status', 'employee_id')
+            ->with('employee', 'lateAndLeave', 'loan', 'errand', 'vacation');
+        if ($request->status) {
+            $empRequests = $empRequests->where('status', $request->status);
+        }
+        if (!in_array(Auth::user()->type, [1, 2])) {
+            $empRequests = $empRequests->where('employee_id', Auth::id());
+        }
+        return $empRequests->paginate(15);
     }
 }
