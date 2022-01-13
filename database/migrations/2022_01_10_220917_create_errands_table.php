@@ -19,6 +19,7 @@ class CreateErrandsTable extends Migration
             $table->date('date');
             $table->time('from');
             $table->time('to');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

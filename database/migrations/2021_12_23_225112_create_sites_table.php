@@ -21,6 +21,7 @@ class CreateSitesTable extends Migration
             $table->double('lat');
             $table->double('lng');
             $table->float('redius');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

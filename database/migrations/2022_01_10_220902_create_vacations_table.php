@@ -18,6 +18,7 @@ class CreateVacationsTable extends Migration
             $table->unsignedBigInteger('request_id');
             $table->date('start');
             $table->date('end');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

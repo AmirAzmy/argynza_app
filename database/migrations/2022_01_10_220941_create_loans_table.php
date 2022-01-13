@@ -18,6 +18,7 @@ class CreateLoansTable extends Migration
             $table->unsignedBigInteger('request_id');
             $table->date('date');
             $table->double('amount');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

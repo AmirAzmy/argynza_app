@@ -20,6 +20,7 @@ class CreateLateAndLeavesTable extends Migration
             $table->boolean('is_late');
             $table->time('from');
             $table->time('to');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
