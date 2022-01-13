@@ -34,9 +34,9 @@ class UserController extends Controller
      * @param  UserRequest  $request
      * @return mixed
      */
-    public function update(UserRequest $request)
+    public function update(UserRequest $request, $id)
     {
-        $service = $this->service->update($request);
+        $service = $this->service->update($request, $id);
         return Response::successResponse($service);
     }
 
@@ -47,7 +47,7 @@ class UserController extends Controller
      */
     public function delete($id)
     {
-        $this->authorize('adminOnly');
+//        $this->authorize('adminOnly');
         $service = $this->service->delete($id);
         if (!$service) {
             return Response::errorResponse($service);

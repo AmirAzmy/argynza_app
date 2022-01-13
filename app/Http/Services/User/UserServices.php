@@ -11,27 +11,29 @@ class UserServices
 {
     public function create(Request $request)
     {
+        $request->merge(['verification_code' => 0]);
         return User::create($request->only([
-            'name', 'phone', 'password', 'project_id',
-            "image", "active", "phone"
+            'name', 'phone', 'password', 'type', 'verification_code',
+            'project_id', "image", "active", "job_title",
         ]));
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $userId = in_array(Auth::user()->type, [3, 4, 5]) ? Auth::id() : $request->user_id;
+        $userId = in_array(Auth::user()->type, [3, 4, 5]) ? Auth::id() : $id;
         return User::find($userId)
             ->update($request->only([
-                'name', 'phone', 'password', 'project_id',
-                "image", "active", "phone"
+                'name', 'phone', 'password', 'type',
+                'project_id', "image", "active", "job_title"
             ]));
     }
 
     public function index(Request $request)
     {
-        $users = User::with('project');
+        $users = User::with('project')
+            ->orderBy('id', 'desc');
         if ($request->keyword) {
-            $users->where('name', '%'.$request->keyword.'%');
+            $users->where('name', 'like', '%'.$request->keyword.'%');
         }
         $active = $request->active == 1 ? 1 :
             (($request->has('active') && $request->active == 0) ? 0 : 1);

@@ -15,12 +15,12 @@ Route::group([
         'prefix' => 'users',
     ], function () {
         Route::get('/', 'UserController@index');
-        Route::get('/logged', 'UserController@loggedUser');
-        Route::post('/create', 'UserController@create');
-        Route::put('update', 'UserController@update');
-        Route::delete('/{id}/delete', 'UserController@delete');
         Route::get('profile', 'UserController@profile');
         Route::post('change-password', 'UserController@changePassword');
+        Route::get('/logged', 'UserController@loggedUser');
+        Route::post('/', 'UserController@create');
+        Route::put('{id}', 'UserController@update');
+        Route::delete('/{id}', 'UserController@delete');
     });
 
     Route::group([

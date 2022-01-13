@@ -25,4 +25,5 @@ class ProjectController extends Controller
         $service = new ProjectResource($service);
         return Response::successResponse($service);
     }
+
 }

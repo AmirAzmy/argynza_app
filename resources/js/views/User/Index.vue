@@ -3,10 +3,10 @@
     <div class="manager-header">
       <div class="slim-pageheader">
         <ol class="breadcrumb slim-breadcrumb">
-          <router-link to="/admin/video/create" class="btn btn-primary">اضف موظف جديد</router-link>
+          <router-link to="/admin/user/create" class="btn btn-primary">اضف موظف جديد</router-link>
         </ol>
         <h6 class="slim-pagetitle">الموظفين
-<!--          <i class="fas fa-sync-alt"></i>-->
+          <!--          <i class="fas fa-sync-alt"></i>-->
         </h6>
       </div><!-- slim-pageheader -->
     </div><!-- manager-header -->
@@ -15,17 +15,17 @@
       <div class="manager-right">
         <div class="row row-sm">
           <div v-if="!items.length"
-              class="col-sm-12 alert alert-warning text-center" role="alert">
+               class="col-sm-12 alert alert-warning text-center" role="alert">
             لا يوجد نتيجه
           </div>
           <div class="col-sm-6 col-lg-3 mt-3" v-for="(item,index) in items">
             <div class="card-contact">
               <div class="tx-center">
-                <router-link :to="{path:'/admin/video/edit/' +item.id}">
+                <router-link :to="{path:'/admin/user/edit/' +item.id}">
                   <img :src="item.image" width="110" height="110" class="card-img">
                 </router-link>
                 <h5 class="mg-t-10 mg-b-5">
-                  <router-link :to="{path:'/admin/video/edit/' +item.id}" class="contact-name">
+                  <router-link :to="{path:'/admin/user/edit/' +item.id}" class="contact-name">
                     {{ item.name.substring(0, 16) }}
                   </router-link>
                 </h5>
@@ -43,13 +43,14 @@
               </p><!-- contact-item -->
               <p class="contact-item">
                 <span>المسمى الوظيفي: </span>
-                <span>{{ item.job_title.substr(0,16) }}</span>
+                <span>{{ item.job_title.substr(0, 16) }}</span>
               </p><!-- contact-item -->
               <p class="contact-item">
                 <span>تم التحقق من الهاتف:</span>
                 <span>
                     <i v-if="item.phone_verified_at" class="fas fa-check-double text-success"></i>
-                    <i v-else class="fas fa-times text-danger"></i>
+                    <i v-else @click="showCode(item.verification_code)" class="fas fa-key ml-2"></i>
+                  <i v-if="!item.phone_verified_at" class="fas fa-times text-danger"></i>
                 </span>
               </p>
               <!--                            <p class="contact-item">-->
@@ -61,7 +62,7 @@
                 >
                   <i class="fa fa-trash"></i> حذف
                 </button>
-                <router-link :to="'/admin/video/'+item.id+'/comments'"
+                <router-link :to="'/admin/user/'+item.id+'/comments'"
                              class="btn btn-oblong btn-outline-dark btn-block mg-b-10 col-6">
                   <i class="fas fa-comment-alt"></i> كومنتات
                 </router-link>
@@ -160,7 +161,7 @@ export default {
           axios
               .post("users/" + id, {
                 '_method': 'PUT',
-                'active': value,
+                'active': value ? 1 : 0,
               })
               .then(res => {
                 this.items[index].active = (value) ? 1 : 0;
@@ -169,10 +170,12 @@ export default {
                 });
               })
               .catch(err => {
+                this.items[index].active = !(value)
                 console.log(err.response.data);
                 this.errorMessages(err.response.data);
               });
         } else {
+          this.items[index].active = !(value)
           swal("لم يتم التغيير يرجى التاكد من البيانات");
         }
       });
@@ -199,6 +202,9 @@ export default {
           swal("لم يتم الحذف يرجى التاكد من البيانات");
         }
       });
+    },
+    showCode(code) {
+      swal('رمز التحقق', code);
     }
 
   }

@@ -53,7 +53,11 @@ class ProjectService
     {
         $projects = Project::withCount('sites');
         if ($request->keyword) {
-            $projects->where('name', 'like', '%'.$request->keyword.'%');
+            $projects->where('name_ar', 'like', '%'.$request->keyword.'%')
+                ->orWhere('name_en', 'like', '%'.$request->keyword.'%');
+        }
+        if ($request->return_all) {
+            return $projects->get();
         }
         return $projects->paginate(20);
     }
