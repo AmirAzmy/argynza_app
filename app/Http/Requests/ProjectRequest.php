@@ -23,8 +23,31 @@ class ProjectRequest extends FormRequest
      */
     public function rules()
     {
+        switch ($this->method()) {
+            case "POST":
+                return $this->createValidations();
+            case "PUT":
+                return $this->updateValidations();
+            default:
+                return [];
+        }
+    }
+
+    public function createValidations()
+    {
         return [
-            //
+            "name_ar" => "required",
+            "name_en" => "required",
+            'image'   => 'required|image',
+        ];
+    }
+
+    public function updateValidations()
+    {
+        return [
+            "name_ar" => "required",
+            "name_en" => "required",
+            'image'   => 'image'
         ];
     }
 }

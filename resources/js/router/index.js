@@ -12,9 +12,9 @@ import UserCreate from "../views/User/Create"
 import UserEdit from "../views/User/Edit"
 import UserComment from "../views/User/Comments"
 
-import TagIndex from "../views/Tag/Index"
-import TagCreate from "../views/Tag/Create"
-import TagEdit from "../views/Tag/Edit"
+import ProjectIndex from "../views/Project/Index"
+import ProjectCreate from "../views/Project/Create"
+import ProjectEdit from "../views/Project/Edit"
 
 import Login from "../views/Login";
 
@@ -69,21 +69,21 @@ function configRoutes() {
             ]
         },
         {
-            path: "/admin/tag",
+            path: "/admin/project",
             component: Content,
             meta: {requiresAuth: true},
             children: [
                 {
                     path: '/',
-                    component: TagIndex,
+                    component: ProjectIndex,
                 },
                 {
                     path: 'create',
-                    component: TagCreate,
+                    component: ProjectCreate,
                 },
                 {
                     path: 'edit/:id',
-                    component: TagEdit,
+                    component: ProjectEdit,
                 },
             ]
         },
