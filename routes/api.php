@@ -64,6 +64,16 @@ Route::group([
     Route::get("/{id}", "ProjectController@get");
 });
 
+Route::group([
+    'prefix' => 'sites',
+], function () {
+    Route::post("/", "SiteController@create");
+    Route::put("/{id}", "SiteController@update");
+    Route::delete("/{id}", "SiteController@delete");
+    Route::get("/", "SiteController@index");
+    Route::get("/{id}", "SiteController@get");
+});
+
 
 Route::group([
     'prefix' => 'request',

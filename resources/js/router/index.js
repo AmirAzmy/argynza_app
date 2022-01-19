@@ -16,6 +16,10 @@ import ProjectIndex from "../views/Project/Index"
 import ProjectCreate from "../views/Project/Create"
 import ProjectEdit from "../views/Project/Edit"
 
+import SiteIndex from "../views/Site/Index"
+import SiteCreate from "../views/Site/Create"
+import SiteEdit from "../views/Site/Edit"
+
 import Login from "../views/Login";
 
 import Profile from "../views/Admin/Profile"
@@ -84,6 +88,25 @@ function configRoutes() {
                 {
                     path: 'edit/:id',
                     component: ProjectEdit,
+                },
+            ]
+        },
+        {
+            path: "/admin/project/:project_id/site",
+            component: Content,
+            meta: {requiresAuth: true},
+            children: [
+                {
+                    path: '/',
+                    component: SiteIndex,
+                },
+                {
+                    path: 'create',
+                    component: SiteCreate,
+                },
+                {
+                    path: 'edit/:id',
+                    component: SiteEdit,
                 },
             ]
         },

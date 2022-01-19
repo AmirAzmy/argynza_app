@@ -10,6 +10,7 @@ import store from './store';
 import 'vue-loaders/dist/vue-loaders.css';
 import VueLoaders from 'vue-loaders';
 import Vuelidate from 'vuelidate';
+import * as VueGoogleMaps from 'vue2-google-maps'
 
 import interceptorSetup from "./router/middleware/interceptor"
 
@@ -23,7 +24,13 @@ Vue.mixin(alertsMixin);
 Vue.use(PaginationPlugin);
 Vue.use(FormTagsPlugin);
 Vue.use(Vuelidate)
-
+Vue.use(VueGoogleMaps, {
+    load: {
+        key: 'AIzaSyAANu_sjcxDH04GZHg187EGg6csTeiX-jw',
+        libraries: 'places',
+    },
+    installComponents: true
+})
 axios.defaults.baseURL = "/api";
 // axios.defaults.baseURL = "https://haraj.el-abda3.online/api";
 axios.defaults.headers.common = {

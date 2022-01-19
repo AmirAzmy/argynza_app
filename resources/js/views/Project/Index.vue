@@ -44,10 +44,10 @@
                   <img :src="item.image" class="pt-2" height="50" width="50">
                 </td>
                 <td class="valign-middle text-center p-0">
-                  {{ item.name_ar }}
+                  {{ item.name_ar.substr(0,30) }}
                 </td>
                 <td class="valign-middle text-center p-0">
-                  {{ item.name_en }}
+                  {{ item.name_en.substr(0,30) }}
                 </td>
                 <td class="valign-middle text-center p-0">
                   {{ item.sites_count }}
