@@ -26,6 +26,7 @@ class AuthService
         $user->validateForPassportPasswordGrant($request->password);
         $user->checkAccountVerification();
         $user->checkActivation();
+        $user['is_attended'] = $user->checkUserAttendance();
         $user['token'] = $user->createToken('User_Token')->accessToken;
         return $user;
     }

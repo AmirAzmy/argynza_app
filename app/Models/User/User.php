@@ -3,6 +3,7 @@
 namespace App\Models\User;
 
 use App\Exceptions\NoPermissionException;
+use App\Models\Attendance;
 use App\Models\Project\Project;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -108,5 +109,18 @@ class User extends Authenticatable
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
+    public function checkUserAttendance()
+    {
+        return (int) $this->attendances()
+            ->where('day', now()->format('Y-m-d'))
+            ->where('checkout', null)
+            ->exists();
     }
 }

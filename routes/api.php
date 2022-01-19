@@ -46,6 +46,15 @@ Route::group([
         Route::post('resend', 'VerificationController@resend');
         Route::post('check', 'VerificationController@checkCode');
     });
+
+    Route::group([
+        'prefix' => 'notifications',
+    ], function () {
+        Route::get('/', 'NotificationController@index');
+        Route::post('/', 'NotificationController@markAllAsRead');
+        Route::post('/{id}', 'NotificationController@markAsRead');
+        Route::get('/total-unread-notifications', 'NotificationController@totalUnreadNotifications');
+    });
 });
 
 Route::group([

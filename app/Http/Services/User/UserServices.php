@@ -2,6 +2,7 @@
 
 namespace App\Http\Services\User;
 
+use App\Models\Attendance;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,10 +47,13 @@ class UserServices
     public function profile(Request $request)
     {
         $id = in_array(Auth::user()->type, [3, 4, 5]) ? Auth::id() : $request->user_id;
-        return User::where('id', $id)
+        $user = User::where('id', $id)
             ->with('project:id,name_en,name_ar,image')
             ->firstOrFail();
+        $user['is_attended'] = $user->checkUserAttendance();
+        return $user;
     }
+
 
     public function delete($id)
     {
@@ -85,9 +89,8 @@ class UserServices
     public function loggedUser()
     {
         $user = User::select(
-            'id', 'name', 'phone', 'password', 'verification_code',
-            'project_id', "image", "active", "phone", "phone_verified_at",
-            'created_at'
+            'id', 'name', 'phone', 'verification_code',
+            'project_id', "image", "active", "phone", "phone_verified_at"
         )->where('id', Auth::id())
             ->first();
 
@@ -96,4 +99,12 @@ class UserServices
         }
         return $user;
     }
+
+    public function employeeAttendance(Request $request)
+    {
+        Attendance::where('user_id',Auth::id())
+            ->where('day',now()->format('Y-m-d'));
+        $attendance = Attendance::create();
+    }
+
 }

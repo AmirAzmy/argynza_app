@@ -12,20 +12,20 @@
       <div class="manager-right">
         <div class="section-wrapper">
           <div class="row mb-1">
-            <div class="col-md-4">
+            <div class="col-md-3">
               <input type="search" class="form-control"
                      style="border-radius: 50px;padding:2px;height: 41.9px; "
                      @input="getAll()"
                      v-model="keyword"
                      placeholder="ابحث عن المواقع..." aria-controls="datatable1">
             </div>
-            <div class="col-4 valign-middle text-center" style="font-size: 21px;">
+            <div class="col-6 valign-middle text-center" style="font-size: 21px;">
               <label> الموقع: </label>
               <router-link :to="'/admin/project/edit'+project_id" class="font-weight-bold">
-                {{ project.name_ar }}/{{ project.name_en }}
+                {{ project.name_ar.substr(0, 20) }}/{{ project.name_en.substr(0, 20) }}
               </router-link>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <router-link :to="'/admin/project/'+project_id+'/site/create'" class="btn btn-outline-primary">
                 اضف جديد
               </router-link>
