@@ -49,6 +49,7 @@ class UserServices
         $id = in_array(Auth::user()->type, [3, 4, 5]) ? Auth::id() : $request->user_id;
         $user = User::where('id', $id)
             ->with('project:id,name_en,name_ar,image')
+            ->withCount('requests')
             ->firstOrFail();
         $user['is_attended'] = $user->checkUserAttendance();
         return $user;
@@ -102,8 +103,8 @@ class UserServices
 
     public function employeeAttendance(Request $request)
     {
-        Attendance::where('user_id',Auth::id())
-            ->where('day',now()->format('Y-m-d'));
+        Attendance::where('user_id', Auth::id())
+            ->where('day', now()->format('Y-m-d'));
         $attendance = Attendance::create();
     }
 

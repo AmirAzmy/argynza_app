@@ -5,6 +5,7 @@ namespace App\Models\User;
 use App\Exceptions\NoPermissionException;
 use App\Models\Attendance;
 use App\Models\Project\Project;
+use App\Models\Request\Request;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -109,6 +110,11 @@ class User extends Authenticatable
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function requests()
+    {
+        return $this->hasMany(Request::class, 'employee_id');
     }
 
     public function attendances()
