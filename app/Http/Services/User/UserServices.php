@@ -34,10 +34,7 @@ class UserServices
         $users = User::with('project')
             ->whereNotIn('type', [1, 2])
             ->orderBy('id', 'desc');
-        if ($request->keyword) {
-            $users = $users->where('name', 'like', '%'.$request->keyword.'%')
-                ->orWhere('phone', 'like', '%'.$request->keyword.'%');
-        }
+
         if ($request->type) {
             $users = $users->where('type', $request->type);
         }
@@ -45,6 +42,10 @@ class UserServices
             (($request->has('active') && $request->active == 0) ? 0 : 1);
         if ($request->active != 2) {
             $users = $users->where('active', $active);
+        }
+        if ($request->keyword) {
+            $users = $users->where('name', 'like', '%'.$request->keyword.'%')
+                ->orWhere('phone', 'like', '%'.$request->keyword.'%');
         }
         return $users->paginate(18);
     }

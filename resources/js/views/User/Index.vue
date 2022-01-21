@@ -13,6 +13,66 @@
 
     <div class="manager-wrapper">
       <div class="manager-right">
+        <div class="section-wrapper" style="padding:20px 20px 5px 20px !important;">
+          <div class="form-layout text-right">
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label">اسم الموظف او تليفونه</label>
+                  <input class="form-control" style="height: calc(2.5005rem + 2px);"
+                         v-model="keyword"
+                         type="text" placeholder="البحث بأسم الموظف او تليفونه">
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label">نوع الموظف</label>
+                  <select class="form-control" v-model="userType">
+                    <option value="0">الكل</option>
+                    <option value="5">موظف</option>
+                    <option value="4">مدير مباشر</option>
+                    <option value="3">مدير مشروع</option>
+                  </select>
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label"
+                         style="display: block; margin-bottom:20px ">التفعيل </label>
+                  <label class="rdiobox ml-5" style="display:  inline">
+                    <input v-model="userActive" type="radio" value="2">
+                    <span>الكل</span>
+                  </label>
+                  <label class="rdiobox ml-5" style="display:  inline">
+                    <input v-model="userActive" type="radio" value="1">
+                    <span>فعال</span>
+                  </label>
+                  <label class="rdiobox" style="display: inline">
+                    <input v-model="userActive" type="radio" value="0">
+                    <span>غير فعال</span>
+                  </label>
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-9"></div>
+              <div class="col-lg-3 text-left">
+                <div class="form-group">
+                  <label class="form-control-label"></label>
+                  <button type="button" @click="getAll()" class="btn btn-oblong btn-primary btn-sm"
+                          style="width: 75px;">
+                    <i class="fas fa-search"></i>
+                  </button>
+                  <button type="button" @click="reload()" class="btn btn-oblong btn-secondary btn-sm"
+                          style="width: 75px;">
+                    <i class="fas fa-sync-alt"></i>
+                  </button>
+                </div>
+              </div><!-- col-4 -->
+            </div><!-- row -->
+
+            <div class="form-layout-footer text-left">
+            </div><!-- form-layout-footer -->
+          </div><!-- form-layout -->
+        </div><!-- section-wrapper -->
         <div class="row row-sm">
           <div v-if="!items.length"
                class="col-sm-12 alert alert-warning text-center" role="alert">
@@ -103,6 +163,8 @@ export default {
   data() {
     return {
       keyword: null,
+      userType: 0,
+      userActive: 2,
       perPage: 3,
       currentPage: 1,
       rows: 15,
@@ -138,11 +200,18 @@ export default {
     }
   },
   methods: {
+    reload() {
+      this.userActive = 2;
+      this.keyword = null;
+      this.userType = 0;
+      this.getAll();
+    },
     getAll() {
       axios.get('/users', {
         params: {
-          active: 2,
+          active: this.userActive,
           keyword: this.keyword,
+          type: this.userType,
           page: this.currentPage, return_all: 0
         }
       }).then(response => {
