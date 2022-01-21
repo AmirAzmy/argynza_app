@@ -20,6 +20,9 @@ import SiteIndex from "../views/Site/Index"
 import SiteCreate from "../views/Site/Create"
 import SiteEdit from "../views/Site/Edit"
 
+import RequestIndex from "../views/Request/Index"
+import RequestDetails from "../views/Request/Index"
+
 import Login from "../views/Login";
 
 import Profile from "../views/Admin/Profile"
@@ -89,6 +92,21 @@ function configRoutes() {
                     path: 'edit/:id',
                     component: ProjectEdit,
                 },
+            ]
+        },
+        {
+            path: "/admin/request",
+            component: Content,
+            meta: {requiresAuth: true},
+            children: [
+                {
+                    path: '/',
+                    component: RequestIndex,
+                },
+                {
+                    path: 'display:id',
+                    component: RequestDetails,
+                }
             ]
         },
         {

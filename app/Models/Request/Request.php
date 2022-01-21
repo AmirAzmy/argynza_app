@@ -10,9 +10,30 @@ class Request extends Model
 {
     use SoftDeletes;
 
+    private $types = [
+        'late_and_leave' => ['en' => 'late and leave', 'ar' => 'تأخير او مغادرة'],
+        'vacation'       => ['en' => 'vacation', 'ar' => 'اجازة'],
+        'errand'         => ['en' => 'errand', 'ar' => 'مأمورية'],
+        'loan'           => ['en' => 'loan', 'ar' => 'سلفه']
+    ];
+    private $statusNames = ['pending' => ' في الإنتظار', 'approved' => 'موافق', 'rejected' => 'مرفوض'];
+
     protected $fillable = [
         'notes', 'type', 'status', 'employee_id'
     ];
+    protected $appends = [
+        'status_name', 'type_name'
+    ];
+
+    public function getTypeNameAttribute()
+    {
+        return ($this->types[$this->type][app()->getLocale()]) ?? 'NAN';
+    }
+
+    public function getStatusNameAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->statusNames[$this->status] : $this->status;
+    }
 
     public function employee()
     {

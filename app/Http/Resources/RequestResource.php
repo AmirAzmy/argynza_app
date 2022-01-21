@@ -20,6 +20,8 @@ class RequestResource extends JsonResource
             'notes'          => $this->notes,
             'type'           => $this->type,
             'status'         => $this->status,
+            'status_name'    => $this->status_name,
+            'type_name'      => $this->type_name,
             'created_at'     => Carbon::parse($this->created_at)->format('Y-m-d h:i:s'),
             'employee'       => $this->whenLoaded('employee'),
             'late_and_leave' => $this->whenLoaded('lateAndLeave'),

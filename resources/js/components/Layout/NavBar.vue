@@ -22,6 +22,7 @@ export default {
         {name: 'الرئيسية', icon: 'icon ion-ios-home-outline', route: '/admin', active: 1},
         {name: ' الموظفيين ', icon: 'icon fas fa-user-tie', route: '/admin/user', active: 0},
         {name: ' المشاريع ', icon: 'icon fas fa-hard-hat', route: '/admin/project', active: 0},
+        {name: ' الطلبات ', icon: 'icon fas fa-copy', route: '/admin/request', active: 0},
       ]
     }
   },

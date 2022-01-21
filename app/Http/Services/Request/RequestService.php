@@ -45,13 +45,22 @@ class RequestService
 
     public function index(Request $request)
     {
-        $empRequests = EmpRequest::select('id', 'notes', 'type', 'status', 'employee_id','created_at')
+        $empRequests = EmpRequest::select('id', 'notes', 'type', 'status', 'employee_id', 'created_at')
             ->with('employee', 'lateAndLeave', 'loan', 'errand', 'vacation');
         if ($request->date) {
             $empRequests = $empRequests->whereDate('created_at', $request->date);
         }
         if ($request->status) {
             $empRequests = $empRequests->where('status', $request->status);
+        }
+        if ($request->type) {
+            $empRequests = $empRequests->where('type', $request->type);
+        }
+        if ($request->keyword) {
+            $empRequests = $empRequests->whereHas('employee', function ($employee) use ($request) {
+                $employee->where('name', 'like', '%'.$request->keyword.'%')
+                    ->orWhere('phone', 'like', '%'.$request->keyword.'%');
+            });
         }
         if (!in_array(Auth::user()->type, [1, 2])) {
             $empRequests = $empRequests->where('employee_id', Auth::id());
