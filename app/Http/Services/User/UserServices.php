@@ -32,9 +32,14 @@ class UserServices
     public function index(Request $request)
     {
         $users = User::with('project')
+            ->whereNotIn('type', [1, 2])
             ->orderBy('id', 'desc');
         if ($request->keyword) {
-            $users->where('name', 'like', '%'.$request->keyword.'%');
+            $users = $users->where('name', 'like', '%'.$request->keyword.'%')
+                ->orWhere('phone', 'like', '%'.$request->keyword.'%');
+        }
+        if ($request->type) {
+            $users = $users->where('type', $request->type);
         }
         $active = $request->active == 1 ? 1 :
             (($request->has('active') && $request->active == 0) ? 0 : 1);
@@ -80,6 +85,15 @@ class UserServices
                 'password'        => $request->password,
                 'pass_changed_at' => now()
             ])
+        ];
+    }
+
+    public function userActivation($id)
+    {
+        $user = User::find($id);
+        $user->update(['active' => $user->active ? 0 : 1]);
+        return [
+            'active' => $user->active
         ];
     }
 

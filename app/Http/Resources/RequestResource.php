@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class RequestResource extends JsonResource
@@ -19,7 +20,7 @@ class RequestResource extends JsonResource
             'notes'          => $this->notes,
             'type'           => $this->type,
             'status'         => $this->status,
-            'created_at'     => $this->created_at,
+            'created_at'     => Carbon::parse($this->created_at)->format('Y-m-d h:i:s'),
             'employee'       => $this->whenLoaded('employee'),
             'late_and_leave' => $this->whenLoaded('lateAndLeave'),
             'loan'           => $this->whenLoaded('loan'),

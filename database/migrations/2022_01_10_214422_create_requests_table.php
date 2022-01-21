@@ -19,6 +19,7 @@ class CreateRequestsTable extends Migration
             $table->enum('type', ['late_and_leave', 'vacation', 'errand', 'loan']);
             $table->enum('status', ['pending', 'approved', 'rejected']);
             $table->string('notes', 500)->nullable();
+            $table->string('rejection_reason', 500)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

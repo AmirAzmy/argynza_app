@@ -15,6 +15,8 @@ class UserController extends Controller
     public function __construct(UserServices $service)
     {
         $this->middleware('auth:api');
+        $this->middleware('check.role:1,2')
+            ->except(['profile', 'changePassword']);
         $this->service = $service;
     }
 
@@ -86,6 +88,17 @@ class UserController extends Controller
     public function changePassword(UserRequest $request)
     {
         $service = $this->service->changePassword($request);
+        return Response::successResponse($service);
+    }
+
+    /**
+     * activate or deactivate user
+     * @param $id
+     * @return mixed
+     */
+    public function userActivation($id)
+    {
+        $service = $this->service->userActivation($id);
         return Response::successResponse($service);
     }
 

@@ -20,6 +20,7 @@ Route::group([
         Route::get('/logged', 'UserController@loggedUser');
         Route::post('/', 'UserController@create');
         Route::put('{id}', 'UserController@update');
+        Route::put('{id}/user-activation', 'UserController@userActivation');
         Route::delete('/{id}', 'UserController@delete');
     });
 
@@ -88,8 +89,7 @@ Route::group([
     'prefix' => 'request',
 ], function () {
     Route::post("/", "RequestController@create");
-    Route::put("/{id}", "RequestController@update");
-    Route::delete("/{id}", "RequestController@delete");
+    Route::put("/{id}", "RequestController@changeStatus");
     Route::get("/", "RequestController@index");
     Route::get("/{id}", "RequestController@get");
 });

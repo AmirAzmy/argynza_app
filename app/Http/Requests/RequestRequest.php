@@ -44,13 +44,15 @@ class RequestRequest extends FormRequest
             'end'     => 'required_if:type,vacation|date_format:Y-m-d|after:start',
             'date'    => 'required_unless:type,vacation|date_format:Y-m-d|after:yesterday',
             'amount'  => 'required_if:type,loan|gte:1|lte:20000',
+            'notes'   => 'max:500',
         ];
     }
 
     public function updateValidations()
     {
         return [
-            "is_increase" => "required|in:0,1"
+            "status"           => "required|in:pending,approved,rejected",
+            "rejection_reason" => "required_if:status,rejected|max:500"
         ];
     }
 }

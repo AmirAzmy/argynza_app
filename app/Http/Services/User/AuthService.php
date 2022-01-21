@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class AuthService
 {
-    public function login(Request $request, $types = [3, 4, 5])
+    public function login(Request $request, $types = [2, 3, 4, 5])
     {
         $user = User::select('id', 'name', 'phone', "image", "password",
             "active", "phone", "phone_verified_at", 'type', "project_id")

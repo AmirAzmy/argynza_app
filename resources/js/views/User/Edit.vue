@@ -96,8 +96,8 @@
                 <option value="5">موظف</option>
                 <option value="4">مدير مباشر</option>
                 <option value="3">مدير مشروع</option>
-                <option value="2">اتش ار</option>
-                <option value="1">مدير عام</option>
+<!--                <option value="2">اتش ار</option>-->
+<!--                <option value="1">مدير عام</option>-->
               </select>
             </div>
           </div><!-- col-4 -->

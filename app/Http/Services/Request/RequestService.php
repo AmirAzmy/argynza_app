@@ -2,9 +2,12 @@
 
 namespace App\Http\Services\Request;
 
+use App\Exceptions\NoPermissionException;
 use Illuminate\Http\Request;
 use App\Models\Request\Request as EmpRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
+use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 
 class RequestService
 {
@@ -24,15 +27,29 @@ class RequestService
 
     public function get($id)
     {
-        return EmpRequest::where('id', $id)
+        $empRequest = EmpRequest::where('id', $id)
             ->with('lateAndLeave', 'loan', 'errand', 'vacation')
             ->firstOrFail();
+        if ($empRequest->employee_id != Auth::id() && !in_array(Auth::user()->type, [1, 2])) {
+            throw new NoPermissionException(Lang::get('messages.no_permissions_msg'));
+        }
+        return $empRequest;
+    }
+
+    public function changeStatus($request, $id)
+    {
+        $empRequest = EmpRequest::where('id', $id)
+            ->firstOrFail();
+        return ['is_success' => $empRequest->update(['status' => $request->status])];
     }
 
     public function index(Request $request)
     {
-        $empRequests = EmpRequest::select('id', 'notes', 'type', 'status', 'employee_id')
+        $empRequests = EmpRequest::select('id', 'notes', 'type', 'status', 'employee_id','created_at')
             ->with('employee', 'lateAndLeave', 'loan', 'errand', 'vacation');
+        if ($request->date) {
+            $empRequests = $empRequests->whereDate('created_at', $request->date);
+        }
         if ($request->status) {
             $empRequests = $empRequests->where('status', $request->status);
         }

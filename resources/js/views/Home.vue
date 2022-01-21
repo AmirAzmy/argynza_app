@@ -3,7 +3,7 @@
         <div class="slim-pageheader">
             <ol class="breadcrumb slim-breadcrumb">
                 <li class="breadcrumb-item">
-                    <router-link to="/">الرئيسية</router-link>
+<!--                    <router-link to="/">الرئيسية</router-link>-->
                 </li>
             </ol>
             <h6 class="slim-pagetitle">الرئيسية</h6>

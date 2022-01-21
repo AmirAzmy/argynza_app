@@ -15,6 +15,9 @@ class RequestController extends Controller
     public function __construct(RequestService $requestService)
     {
         $this->middleware('auth:api');
+
+        $this->middleware('check.role:1,2')
+            ->only(['changeStatus']);
         $this->service = $requestService;
     }
 
@@ -30,10 +33,17 @@ class RequestController extends Controller
         return Response::successResponse($service);
     }
 
+    public function changeStatus(RequestRequest $request, $id)
+    {
+        $service = $this->service->changeStatus($request, $id);
+        return Response::successResponse($service);
+    }
+
     public function index(RequestRequest $request)
     {
         $service = $this->service->index($request);
         $service = new PaginationResource($service, RequestResource::class);
         return Response::successResponse($service);
     }
+
 }

@@ -21,7 +21,13 @@ class User extends Authenticatable
     use Notifiable, HasApiTokens;
     use SoftDeletes;
 
-    private $types = [5 => 'employee', 4 => 'direct manger', 3 => 'project manger', 2 => 'HR', 1 => 'general manger'];
+    private $types = [
+        5 => ['en' => 'employee', 'ar' => 'موظف'],
+        4 => ['en' => 'direct manger', 'ar' => 'مدير مباشر'],
+        3 => ['en' => 'project manger', 'ar' => 'مدير المشروع'],
+        2 => ['en' => 'HR', 'ar' => ' اتش ار'],
+        1 => ['en' => 'general manger', 'ar' => 'مدير عام']
+    ];
     /**
      * The attributes that are mass assignable.
      *
@@ -90,7 +96,7 @@ class User extends Authenticatable
 
     public function getUserTypeAttribute()
     {
-        return ($this->types[$this->type]) ?? 'employee'.$this->type;
+        return ($this->types[$this->type][app()->getLocale()]) ?? 'employee';
     }
 
     public function setVerificationCodeAttribute($value)

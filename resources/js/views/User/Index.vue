@@ -46,6 +46,10 @@
                 <span>{{ item.job_title.substr(0, 16) }}</span>
               </p><!-- contact-item -->
               <p class="contact-item">
+                <span>نوع الموظف: </span>
+                <span>{{ item.user_type }}</span>
+              </p><!-- contact-item -->
+              <p class="contact-item">
                 <span>تم التحقق من الهاتف:</span>
                 <span>
                     <i v-if="item.phone_verified_at" class="fas fa-check-double text-success"></i>
