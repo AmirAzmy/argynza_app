@@ -16,18 +16,19 @@ class RequestResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'             => $this->id,
-            'notes'          => $this->notes,
-            'type'           => $this->type,
-            'status'         => $this->status,
-            'status_name'    => $this->status_name,
-            'type_name'      => $this->type_name,
-            'created_at'     => Carbon::parse($this->created_at)->format('Y-m-d h:i:s'),
-            'employee'       => $this->whenLoaded('employee'),
-            'late_and_leave' => $this->whenLoaded('lateAndLeave'),
-            'loan'           => $this->whenLoaded('loan'),
-            'errand'         => $this->whenLoaded('errand'),
-            'vacation'       => $this->whenLoaded('vacation'),
+            'id'               => $this->id,
+            'notes'            => $this->notes,
+            'type'             => $this->type,
+            'status'           => $this->status,
+            'status_name'      => $this->status_name,
+            'type_name'        => $this->type_name,
+            'rejection_reason' => $this->rejection_reason,
+            'created_at'       => Carbon::parse($this->created_at)->format('Y-m-d h:i:s'),
+            'employee'         => $this->whenLoaded('employee'),
+            'late_and_leave'   => $this->whenLoaded('lateAndLeave'),
+            'loan'             => $this->whenLoaded('loan'),
+            'errand'           => $this->whenLoaded('errand'),
+            'vacation'         => $this->whenLoaded('vacation'),
         ];
     }
 }

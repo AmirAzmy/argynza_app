@@ -3,11 +3,12 @@
 namespace App\Http\Services\Request;
 
 use App\Exceptions\NoPermissionException;
+use App\Notifications\DBNotification;
 use Illuminate\Http\Request;
 use App\Models\Request\Request as EmpRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
-use phpDocumentor\Reflection\DocBlock\Tags\Throws;
+use Notification as NotificationQueue;
 
 class RequestService
 {
@@ -40,12 +41,20 @@ class RequestService
     {
         $empRequest = EmpRequest::where('id', $id)
             ->firstOrFail();
+        NotificationQueue::send($empRequest->employee()->first(), new DBNotification([
+            "title"      => "تم تغيير حاله الطلب",
+            "body"       => $empRequest->status_name.'تم تغيير حاله طلبك الى ',
+            'image'      => '',
+            'actionType' => 'request',
+            'actionId'   => $empRequest->id,
+        ]));
         return ['is_success' => $empRequest->update(['status' => $request->status])];
     }
 
     public function index(Request $request)
     {
-        $empRequests = EmpRequest::select('id', 'notes', 'type', 'status', 'employee_id', 'created_at')
+        $empRequests = EmpRequest::select('id', 'notes', 'type', 'status'
+            , 'rejection_reason', 'employee_id', 'created_at')
             ->with('employee', 'lateAndLeave', 'loan', 'errand', 'vacation');
         if ($request->date) {
             $empRequests = $empRequests->whereDate('created_at', $request->date);
