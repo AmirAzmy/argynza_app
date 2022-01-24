@@ -135,4 +135,10 @@ class User extends Authenticatable
             ->where('checkout', null)
             ->exists();
     }
+
+    public function todayAttendance()
+    {
+        return $this->hasOne(Attendance::class, 'user_id')
+            ->select('id', 'user_id', 'day', 'checkin', 'checkout', 'site_id');
+    }
 }

@@ -22,7 +22,7 @@ class AttendanceService
         $attendance = Attendance::where('user_id', Auth::id())
             ->whereDate('day', now()->format('Y-m-d'))
             ->first();
-        if ($attendance->checkout != null) {
+        if ($attendance && $attendance->checkout != null) {
             throw new BadRequestHttpException(Lang::get('messages.attendance_error_msg'));
         }
         if ($attendance) {
@@ -30,6 +30,7 @@ class AttendanceService
             return $attendance;
         }
         return Attendance::create([
+            'site_id'=>$request->site_id,
             'user_id' => Auth::id(), 'day' => now()->format('Y-m-d'),
             'checkin' => now()->format('h:i:s'), 'checkout' => null
         ]);
