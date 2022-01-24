@@ -56,6 +56,14 @@ Route::group([
         Route::post('/{id}', 'NotificationController@markAsRead');
         Route::get('/total-unread-notifications', 'NotificationController@totalUnreadNotifications');
     });
+
+    Route::group([
+        'prefix' => 'attendance',
+    ], function () {
+        Route::post("/checkin-and-out", "AttendanceController@checkInAndOut");
+        Route::post("/check-location", "AttendanceController@checkLocation");
+    });
+
 });
 
 Route::group([

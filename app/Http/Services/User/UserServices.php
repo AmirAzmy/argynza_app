@@ -52,7 +52,8 @@ class UserServices
 
     public function profile(Request $request)
     {
-        $id = in_array(Auth::user()->type, [3, 4, 5]) ? Auth::id() : $request->user_id;
+        $id = in_array(Auth::user()->type, [3, 4, 5]) ? Auth::id() : ($request->user_id)??Auth::id();
+
         $user = User::where('id', $id)
             ->with('project:id,name_en,name_ar,image')
             ->withCount('requests')
@@ -116,11 +117,6 @@ class UserServices
         return $user;
     }
 
-    public function employeeAttendance(Request $request)
-    {
-        Attendance::where('user_id', Auth::id())
-            ->where('day', now()->format('Y-m-d'));
-        $attendance = Attendance::create();
-    }
+
 
 }

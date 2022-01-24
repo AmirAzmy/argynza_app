@@ -49,7 +49,6 @@ class UserController extends Controller
      */
     public function delete($id)
     {
-//        $this->authorize('adminOnly');
         $service = $this->service->delete($id);
         if (!$service) {
             return Response::errorResponse($service);
@@ -65,7 +64,6 @@ class UserController extends Controller
      */
     public function index(UserRequest $request)
     {
-//        $this->authorize('adminOnly');
         $service = $this->service->index($request);
         return Response::successResponse($service);
     }
