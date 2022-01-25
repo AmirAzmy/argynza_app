@@ -16,7 +16,7 @@ class CreateRequestsTable extends Migration
         Schema::create('requests', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('employee_id');
-            $table->enum('type', ['late_and_leave', 'vacation', 'errand', 'loan']);
+            $table->enum('type', ['late_and_leave', 'vacation', 'errand', 'reduction', 'loan']);
             $table->enum('status', ['pending', 'approved', 'rejected']);
             $table->string('notes', 500)->nullable();
             $table->string('rejection_reason', 500)->nullable();

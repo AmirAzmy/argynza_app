@@ -14,7 +14,8 @@ class Request extends Model
         'late_and_leave' => ['en' => 'Late and Leave', 'ar' => 'تأخير او مغادرة'],
         'vacation'       => ['en' => 'Vacation', 'ar' => 'اجازة'],
         'errand'         => ['en' => 'Errand', 'ar' => 'مأمورية'],
-        'loan'           => ['en' => 'Loan', 'ar' => 'سلفه']
+        'loan'           => ['en' => 'Loan', 'ar' => 'سلفه'],
+        'reduction'      => ['en' => 'Reduction', 'ar' => 'خصم'],
     ];
     public $statusNames = ['pending' => ' في الإنتظار', 'approved' => 'موافق', 'rejected' => 'مرفوض'];
 
@@ -63,5 +64,12 @@ class Request extends Model
     {
         return $this->hasOne(Vacation::class)
             ->select('id', 'start', 'end', 'request_id');
+    }
+
+    public function reduction()
+    {
+        return $this->hasOne(Reduction::class)
+            ->select('id', 'date', 'amount', 'user_id', 'request_id')
+            ->with('employee:id,name,phone,type');
     }
 }

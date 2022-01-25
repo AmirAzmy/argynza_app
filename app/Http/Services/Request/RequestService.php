@@ -9,6 +9,7 @@ use App\Models\Request\Request as EmpRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Notification as NotificationQueue;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class RequestService
 {
@@ -17,6 +18,9 @@ class RequestService
         $request->merge([
             'employee_id' => Auth::id()
         ]);
+        if (Auth::user()->type == 5 && $request->type == 'reduction') {
+            throw new BadRequestHttpException(Lang::get('messages.not_allow_msg'));
+        }
         $empRequest = EmpRequest::create($request->only([
             'notes', 'employee_id', 'status', 'type'
         ]));
@@ -57,7 +61,7 @@ class RequestService
     {
         $empRequests = EmpRequest::select('id', 'notes', 'type', 'status'
             , 'rejection_reason', 'employee_id', 'created_at')
-            ->with('employee', 'lateAndLeave', 'loan', 'errand', 'vacation');
+            ->with('employee', 'lateAndLeave', 'loan', 'errand', 'vacation', 'reduction');
         if ($request->date) {
             $empRequests = $empRequests->whereDate('created_at', $request->date);
         }
@@ -78,4 +82,5 @@ class RequestService
         }
         return $empRequests->paginate(15);
     }
+
 }

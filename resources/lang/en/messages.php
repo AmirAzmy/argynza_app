@@ -11,4 +11,5 @@ return [
     'no_permissions_msg'           => 'Not allowed display data',
     'attendance_error_msg'         => "you are checkout today, can't be modified",
     'location_error_msg'           => "You are out of work, please come back to the site",
+    'not_allow_msg'                => "Not allowed",
 ];

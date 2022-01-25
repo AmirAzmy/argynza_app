@@ -11,4 +11,5 @@ return [
     'no_permissions_msg'           => 'غير مسموح بعرض البيانات',
     'attendance_error_msg'         => 'لقد قمت بتسجيل الخروج اليوم لا يمكن تعديله',
     'location_error_msg'           => 'انت خارج نطاق العمل من فضلك عد الى الموقع',
+    'not_allow_msg'                => 'غير مسموح',
 ];

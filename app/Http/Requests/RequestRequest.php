@@ -36,15 +36,16 @@ class RequestRequest extends FormRequest
     public function createValidations()
     {
         return [
-            "type"    => "required|in:late_and_leave,vacation,errand,loan",
+            "type"    => "required|in:late_and_leave,vacation,errand,loan,reduction",
             'is_late' => 'required_if:type,late_and_leave|in:0,1',
             'from'    => 'required_if:type,late_and_leave,errand|date_format:H:i',
             'to'      => 'required_if:type,late_and_leave,errand|date_format:H:i|after:from',
             'start'   => 'required_if:type,vacation|date_format:Y-m-d',
             'end'     => 'required_if:type,vacation|date_format:Y-m-d|after:start',
             'date'    => 'required_unless:type,vacation|date_format:Y-m-d|after:yesterday',
-            'amount'  => 'required_if:type,loan|gte:1|lte:20000',
-            'notes'   => 'max:500',
+            'amount'  => 'required_if:type,loan,reduction|gte:1|lte:20000',
+            'user_id' => 'required_if:type,reduction|exists:users,id',
+            'notes'   => 'required|max:500',
         ];
     }
 
