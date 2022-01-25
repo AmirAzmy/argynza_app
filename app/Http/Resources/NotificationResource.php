@@ -10,7 +10,7 @@ class NotificationResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)
@@ -18,8 +18,8 @@ class NotificationResource extends JsonResource
         return [
             'id'                      => $this->id,
             'notifiable_id'           => $this->notifiable_id,
-            'title'                   => $this->data['title'],
-            'body'                    => $this->data['body'],
+            'title'                   => $this->data['title_'.app()->getLocale()],
+            'body'                    => $this->data['body_'.app()->getLocale()],
             'action_type'             => $this->data['payload']['actionType'],
             'action_id'               => $this->data['payload']['actionId'],
             'image'                   => url($this->data['payload']['image']),

@@ -42,8 +42,10 @@ class RequestService
         $empRequest = EmpRequest::where('id', $id)
             ->firstOrFail();
         NotificationQueue::send($empRequest->employee()->first(), new DBNotification([
-            "title"      => "تم تغيير حاله الطلب",
-            "body"       => $empRequest->status_name.'تم تغيير حاله طلبك الى ',
+            "title_en"   => $empRequest->status,
+            "title_ar"   => $empRequest->statusNames[$empRequest->status],
+            "body_en"    => $empRequest->types[$empRequest->type]['en'],
+            "body_ar"    => $empRequest->types[$empRequest->type]['ar'],
             'image'      => '',
             'actionType' => 'request',
             'actionId'   => $empRequest->id,

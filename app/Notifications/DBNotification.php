@@ -57,9 +57,11 @@ class DBNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            "title"   => $this->data['title'],
-            "body"    => $this->data['body'],
-            'payload' => [
+            "title_en" => $this->data['title_ar'],
+            "title_ar" => $this->data['title_en'],
+            "body_en"  => $this->data['body_en'],
+            "body_ar"  => $this->data['body_ar'],
+            'payload'  => [
                 'image'      => $this->data['image'],
                 'actionType' => $this->data['actionType'],
                 'actionId'   => $this->data['actionId'],

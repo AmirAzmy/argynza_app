@@ -10,13 +10,13 @@ class Request extends Model
 {
     use SoftDeletes;
 
-    private $types = [
+    public $types = [
         'late_and_leave' => ['en' => 'Late and Leave', 'ar' => 'تأخير او مغادرة'],
         'vacation'       => ['en' => 'Vacation', 'ar' => 'اجازة'],
         'errand'         => ['en' => 'Errand', 'ar' => 'مأمورية'],
         'loan'           => ['en' => 'Loan', 'ar' => 'سلفه']
     ];
-    private $statusNames = ['pending' => ' في الإنتظار', 'approved' => 'موافق', 'rejected' => 'مرفوض'];
+    public $statusNames = ['pending' => ' في الإنتظار', 'approved' => 'موافق', 'rejected' => 'مرفوض'];
 
     protected $fillable = [
         'notes', 'type', 'status', 'employee_id'

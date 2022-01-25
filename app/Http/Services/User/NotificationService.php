@@ -12,7 +12,7 @@ class NotificationService
     {
         $paginationNum = $request->reduce_pagination ? 5 : 15;
         return Notification::select('id', 'notifiable_id', 'notifiable_type', 'data', 'read_at', 'created_at')
-            ->where('notifiable_id', Auth::id())
+//            ->where('notifiable_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->paginate($paginationNum);
     }
