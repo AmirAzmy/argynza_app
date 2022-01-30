@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\ApiLoggerMiddleware;
 use App\Http\Middleware\CheckRole;
+use App\Http\Middleware\checkUserCreditail;
 use App\Http\Middleware\Localization;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -42,8 +43,9 @@ class Kernel extends HttpKernel
 
         'api' => [
             // 'throttle:60,1',
-            ApiLoggerMiddleware::class,
+//            ApiLoggerMiddleware::class,
             Localization::class,
+            checkUserCreditail::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
