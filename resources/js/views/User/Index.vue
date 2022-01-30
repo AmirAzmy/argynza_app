@@ -126,10 +126,10 @@
                 >
                   <i class="fa fa-trash"></i> حذف
                 </button>
-                <router-link :to="'/admin/user/'+item.id+'/comments'"
-                             class="btn btn-oblong btn-outline-dark btn-block mg-b-10 col-6">
-                  <i class="fas fa-comment-alt"></i> كومنتات
-                </router-link>
+<!--                <router-link :to="'/admin/user/'+item.id+'/comments'"-->
+<!--                             class="btn btn-oblong btn-outline-dark btn-block mg-b-10 col-6">-->
+<!--                  <i class="fas fa-comment-alt"></i> كومنتات-->
+<!--                </router-link>-->
               </div>
               <!--                            </p>&lt;!&ndash; contact-item &ndash;&gt;-->
             </div><!-- card -->
