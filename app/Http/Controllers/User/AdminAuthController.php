@@ -27,16 +27,15 @@ class AdminAuthController extends Controller
         return Response::successResponse($service, 'تم تسجيل الدخول بنجاح.');
     }
 
-//    public function edit(AuthRequest $request)
-//    {
-//        $service = $this->userService->editAdminProfile($request);
-//        return Response::successResponse($service, 'تم التعدبل.');
-//    }
-//
-//    public function profile(Request $request)
-//    {
-//        request()->merge(['user_id' => Auth::id()]);
-//        $service = $this->userService->profile($request);
-//        return Response::successResponse($service);
-//    }
+    public function edit(AuthRequest $request)
+    {
+        $service = $this->authService->editAdminProfile($request);
+        return Response::successResponse($service, 'تم التعدبل.');
+    }
+
+    public function profile(Request $request)
+    {
+        $service = $this->authService->adminProfile();
+        return Response::successResponse($service);
+    }
 }

@@ -38,4 +38,23 @@ class AuthService
         }
         return ['is_success' => true];
     }
+
+    public function adminProfile()
+    {
+        return User::select('id', 'name', 'phone', 'type')
+            ->firstOrFail();
+    }
+
+    public function editAdminProfile(Request $request)
+    {
+        $user = Auth::user();
+        if ($request->password) {
+            $user->update([
+                'password'        => $request->password,
+                'pass_changed_at' => now()
+            ]);
+        }
+        $user->update($request->only(['name', 'email']));
+        return $user;
+    }
 }

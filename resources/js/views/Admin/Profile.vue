@@ -89,11 +89,12 @@ export default {
 
             this.is_loading = true;
             let data = {}
+            data._method = "PUT"
             data.name = this.name
-            data.email = this.email
+            data.phone = this.email
             data.password = this.password
             data.password_confirmation = this.password_confirmation
-            axios.post('admin/profile/update', data)
+            axios.post('admin/edit-admin', data)
                 .then(res => {
                     swal("تم بنجاح👏", "تم تعديل البيانات", "success");
                 }).catch(err => {

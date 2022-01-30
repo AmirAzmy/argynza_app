@@ -6,7 +6,7 @@ Route::group([
         'prefix' => 'admin',
     ], function () {
         Route::post('login', 'AdminAuthController@login');
-        Route::put('edit', 'AdminAuthController@edit');
+        Route::put('edit-admin', 'AdminAuthController@edit');
         Route::get('profile', 'AdminAuthController@profile');
         Route::post('send-notification', 'AdminNotificationController@sendNotification');
     });

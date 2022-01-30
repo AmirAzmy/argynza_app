@@ -28,6 +28,8 @@ class AuthRequest extends FormRequest
         switch ($endPoint) {
             case 'login':
                 return $this->loginValidations();
+            case 'edit-admin':
+                return $this->editAdmin();
             default:
                 return [];
         }
@@ -39,6 +41,14 @@ class AuthRequest extends FormRequest
         return [
             'phone'    => 'required|min:11|max:11',
             'password' => 'required|min:8|max:25'
+        ];
+    }
+
+    private function editAdmin(): array
+    {
+        return [
+            'phone'    => 'required',
+            'password' => 'min:8|max:25|confirmed',
         ];
     }
 }
