@@ -56,4 +56,20 @@ class RequestRequest extends FormRequest
             "rejection_reason" => "required_if:status,rejected|max:500"
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            "rejection_reason" => "سبب الرفض",
+            "status"           => 'حاله الطلب',
+            "rejected"         => 'مرفوض'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            "rejection_reason.required_if" => 'من فضلك ادخل سبب الرفض',
+        ];
+    }
 }

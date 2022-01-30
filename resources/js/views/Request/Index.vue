@@ -79,8 +79,8 @@
               <thead>
               <tr class="text-center">
                 <th class="text-center">#</th>
-                <th class="text-center" style="width: 10%">نوع الطلب</th>
                 <th class="text-center" style="width: 20%">اسم الموظف</th>
+                <th class="text-center" style="width: 10%">نوع الطلب</th>
                 <th class="text-center" style="width: 20%">حالته</th>
                 <th class="text-center" style="width: 20%">وقت الطلب</th>
                 <th class="text-center" style="width: 25%">الأجراءات</th>
@@ -115,7 +115,7 @@
                 </td>
                 <td class="valign-middle text-center p-0">
                   <div class="mt-3 col-12 btn-demo" style="display: inline-flex">
-                    <router-link :to="'/admin/request/edit/'+item.id"
+                    <router-link :to="'/admin/request/details/'+item.id"
                                  class="btn btn-oblong btn-outline-primary btn-block mg-b-10 mt-2 ml-2">
                       <i class="fas fa-comment-alt"></i> عرض
                     </router-link>

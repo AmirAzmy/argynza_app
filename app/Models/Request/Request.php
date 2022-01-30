@@ -3,6 +3,7 @@
 namespace App\Models\Request;
 
 use App\Models\User\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -17,10 +18,10 @@ class Request extends Model
         'loan'           => ['en' => 'Loan', 'ar' => 'سلفه'],
         'reduction'      => ['en' => 'Reduction', 'ar' => 'خصم'],
     ];
-    public $statusNames = ['pending' => ' في الإنتظار', 'approved' => 'موافق', 'rejected' => 'مرفوض'];
+    public $statusNames = ['pending' => ' قيد الإنتظار', 'approved' => 'موافق', 'rejected' => 'مرفوض'];
 
     protected $fillable = [
-        'notes', 'type', 'status', 'employee_id'
+        'notes', 'type', 'status', 'employee_id', 'user_action_id', 'rejection_reason'
     ];
     protected $appends = [
         'status_name', 'type_name'
@@ -33,7 +34,7 @@ class Request extends Model
 
     public function getStatusNameAttribute()
     {
-        return app()->getLocale() == 'ar' ? $this->statusNames[$this->status] : $this->status;
+        return app()->getLocale() == 'ar' ? ($this->statusNames[$this->status] ?? 'NAN') : $this->status;
     }
 
     public function employee()

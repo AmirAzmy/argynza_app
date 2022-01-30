@@ -16,7 +16,8 @@ class RequestService
     public function create(Request $request)
     {
         $request->merge([
-            'employee_id' => Auth::id()
+            'employee_id' => Auth::id(),
+            'status'      => 'pending',
         ]);
         if (Auth::user()->type == 5 && $request->type == 'reduction') {
             throw new BadRequestHttpException(Lang::get('messages.not_allow_msg'));
@@ -33,7 +34,7 @@ class RequestService
     public function get($id)
     {
         $empRequest = EmpRequest::where('id', $id)
-            ->with('lateAndLeave', 'loan', 'errand', 'vacation')
+            ->with('employee', 'lateAndLeave', 'loan', 'errand', 'vacation', 'reduction')
             ->firstOrFail();
         if ($empRequest->employee_id != Auth::id() && !in_array(Auth::user()->type, [1, 2])) {
             throw new NoPermissionException(Lang::get('messages.no_permissions_msg'));
@@ -54,14 +55,25 @@ class RequestService
             'actionType' => 'request',
             'actionId'   => $empRequest->id,
         ]));
-        return ['is_success' => $empRequest->update(['status' => $request->status])];
+        return [
+            'is_success' => $empRequest->update([
+                'user_action_id'   => Auth::id(),
+                'status'           => $request->status,
+                'rejection_reason' => $request->rejection_reason
+            ])
+        ];
     }
 
     public function index(Request $request)
     {
-        $empRequests = EmpRequest::select('id', 'notes', 'type', 'status'
-            , 'rejection_reason', 'employee_id', 'created_at')
-            ->with('employee', 'lateAndLeave', 'loan', 'errand', 'vacation', 'reduction');
+        $empRequests = EmpRequest::select(
+            'id', 'notes', 'type', 'status', 'rejection_reason',
+            'employee_id', 'created_at'
+        )
+            ->with(
+                'employee', 'lateAndLeave', 'loan', 'errand',
+                'vacation', 'reduction'
+            )->orderBy('id', 'desc');
         if ($request->date) {
             $empRequests = $empRequests->whereDate('created_at', $request->date);
         }

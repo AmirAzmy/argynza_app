@@ -21,7 +21,7 @@ import SiteCreate from "../views/Site/Create"
 import SiteEdit from "../views/Site/Edit"
 
 import RequestIndex from "../views/Request/Index"
-import RequestDetails from "../views/Request/Index"
+import RequestDetails from "../views/Request/Details"
 
 import Login from "../views/Login";
 
@@ -104,7 +104,7 @@ function configRoutes() {
                     component: RequestIndex,
                 },
                 {
-                    path: 'display:id',
+                    path: 'details/:id',
                     component: RequestDetails,
                 }
             ]
