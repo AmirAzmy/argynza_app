@@ -30,7 +30,7 @@ class AttendanceService
             return $attendance;
         }
         return Attendance::create([
-            'site_id'=>$request->site_id,
+            'site_id' => $request->site_id,
             'user_id' => Auth::id(), 'day' => now()->format('Y-m-d'),
             'checkin' => now()->format('h:i:s'), 'checkout' => null
         ]);
@@ -44,8 +44,9 @@ class AttendanceService
     public function checkLocation(Request $request)
     {
         $site = Site::findOrFail($request->site_id);
-        $distance = $this->calculateDistance($site->lat, $site->lng, $request->lat, $request->long);
-        if ($distance > $site->redius) {
+        $distance = $this->calculateDistance((double) $site->lat, (double) $site->lng,
+            (double) $request->lat, (double) $request->long);
+        if ($distance > ($site->redius * 1000)) {
             throw new BadRequestHttpException(Lang::get('messages.location_error_msg'));
         }
         return ["on_site" => 1];

@@ -32,7 +32,7 @@ Vue.use(VueGoogleMaps, {
     installComponents: true
 })
 axios.defaults.baseURL = "/api";
-// axios.defaults.baseURL = "https://haraj.el-abda3.online/api";
+
 axios.defaults.headers.common = {
     'accept-language': 'ar',
     'app-version': '1',

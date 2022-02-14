@@ -21,7 +21,7 @@
             </div>
             <div class="col-6 valign-middle text-center" style="font-size: 21px;">
               <label> الموقع: </label>
-              <router-link :to="'/admin/project/edit'+project_id" class="font-weight-bold">
+              <router-link :to="'/admin/project/edit/'+project_id" class="font-weight-bold">
                 {{ project.name_ar.substr(0, 20) }}/{{ project.name_en.substr(0, 20) }}
               </router-link>
             </div>

@@ -35,7 +35,7 @@
           </div><!-- col-4 -->
           <div class="col-lg-6">
             <div class="form-group">
-              <label class="form-control-label">مساحه المسموح بالتحرك فيها (متر): <span class="tx-danger">*</span></label>
+              <label class="form-control-label">مساحه المسموح بالتحرك فيها (كم): <span class="tx-danger">*</span></label>
               <input class="form-control" v-model="item.redius" type="number"
                      placeholder="اضف اسم للموقع">
             </div>
@@ -69,13 +69,13 @@
             <div class="col-lg-6">
               <div class="form-group mg-b-10-force">
                 <label class="form-control-label">خط العرض</label>
-                <input disabled class="form-control" type="text" v-model="item.lat">
+                <input class="form-control" type="text" v-model="item.lat">
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group mg-b-10-force">
                 <label class="form-control-label">خط الطول</label>
-                <input disabled class="form-control" type="text" v-model="item.lng">
+                <input class="form-control" type="text" v-model="item.lng">
               </div>
             </div>
           </div>
