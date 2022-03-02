@@ -2,12 +2,14 @@
 
 namespace App\Http\Services\User;
 
+use App\Exports\UsersExport;
 use App\Models\Attendance;
 use App\Models\Project\Site;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AttendanceService
 {
@@ -70,5 +72,10 @@ class AttendanceService
             * cos($latitudeTo * $rad) * cos($theta * $rad);
 
         return acos($dist) / $rad * 60 * 1.853;
+    }
+
+    public function exportUserAttendance(Request $request)
+    {
+        return Excel::download(new UsersExport($request->user_id), 'user_attendance.xlsx');
     }
 }

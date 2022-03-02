@@ -29,4 +29,10 @@ class AttendanceController extends Controller
         $service = $this->service->checkLocation($request);
         return Response::successResponse($service);
     }
+
+    public function exportUserAttendance(AttendanceRequest $request)
+    {
+        $service = $this->service->exportUserAttendance($request);
+        return Response::successResponse($service);
+    }
 }

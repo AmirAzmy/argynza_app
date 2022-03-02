@@ -16,7 +16,9 @@ class UserController extends Controller
     {
         $this->middleware('auth:api');
         $this->middleware('check.role:1,2')
-            ->except(['profile', 'changePassword']);
+            ->except(['profile', 'changePassword', 'index']);
+        $this->middleware('check.role:1,2,3')
+            ->only(['index']);
         $this->service = $service;
     }
 

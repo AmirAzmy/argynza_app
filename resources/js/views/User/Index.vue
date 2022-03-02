@@ -126,10 +126,11 @@
                 >
                   <i class="fa fa-trash"></i> حذف
                 </button>
-<!--                <router-link :to="'/admin/user/'+item.id+'/comments'"-->
-<!--                             class="btn btn-oblong btn-outline-dark btn-block mg-b-10 col-6">-->
-<!--                  <i class="fas fa-comment-alt"></i> كومنتات-->
-<!--                </router-link>-->
+                <button
+                    @click="exportUserAttendance(item.id)"
+                    class="btn btn-oblong btn-outline-dark btn-block mg-b-10 col-6">
+                  <i class="fas fa-list-ul"></i> الحضور
+                </button>
               </div>
               <!--                            </p>&lt;!&ndash; contact-item &ndash;&gt;-->
             </div><!-- card -->
@@ -278,7 +279,32 @@ export default {
     },
     showCode(code) {
       swal('رمز التحقق', code);
-    }
+    },
+    exportUserAttendance(userId) {
+      swal({
+        title: "هل انت متاكد ؟",
+        text: "سيتم تغير  حاله التفعيل للمستخدم , تاكيد؟",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(willDelete => {
+        if (willDelete) {
+          axios
+              .post("attendance/export", {
+                user_id: userId,
+              })
+              .then(res => {
+                console.log(res.data)
+              })
+              .catch(err => {
+                console.log(err.response.data);
+                this.errorMessages(err.response.data);
+              });
+        } else {
+          swal("لم يتم التغيير يرجى التاكد من البيانات");
+        }
+      });
+    },
 
   }
 }
