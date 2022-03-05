@@ -67,6 +67,13 @@
                     >
                       <i class="fa fa-trash"></i> حذف
                     </button>
+                    <router-link
+                        :to="'/admin/project/'+project_id+'/site/'+item.id+'/attendances'"
+                        class="btn btn-oblong btn-outline-dark btn-block mg-b-10 mt-2 ml-2"
+                        type="button"
+                    >
+                      <i class="icon fas fa-copy"></i> الحضور
+                    </router-link>
                   </div>
                 </td>
               </tr>

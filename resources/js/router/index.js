@@ -20,6 +20,7 @@ import ProjectEdit from "../views/Project/Edit"
 import SiteIndex from "../views/Site/Index"
 import SiteCreate from "../views/Site/Create"
 import SiteEdit from "../views/Site/Edit"
+import SiteAttendance from "../views/Site/Attendances"
 
 import RequestIndex from "../views/Request/Index"
 import RequestDetails from "../views/Request/Details"
@@ -130,6 +131,10 @@ function configRoutes() {
                 {
                     path: 'edit/:id',
                     component: SiteEdit,
+                },
+                {
+                    path: ':siteId/attendances',
+                    component: SiteAttendance,
                 },
             ]
         },

@@ -32,6 +32,9 @@ class AttendanceRequest extends FormRequest
             case 'export':
             case 'user-attendances':
                 return $this->userIdValidation();
+            case 'site-attendances':
+            case 'export-site-attendances':
+                return $this->exportSiteAttendances();
             default:
                 return [];
         }
@@ -50,6 +53,14 @@ class AttendanceRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
+        ];
+    }
+
+    private function exportSiteAttendances(): array
+    {
+        return [
+            'date'    => 'required',
+            'site_id' => 'required|exists:sites,id',
         ];
     }
 }

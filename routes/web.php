@@ -11,8 +11,23 @@
 |
 */
 
+use App\Models\User\User;
+use Carbon\Carbon;
+
 Route::get('/', function () {
     return view('welcome');
+});
+Route::get('/attendances', function () {
+    $users = User::whereHas('attendances', function ($attendance) {
+        $attendance->where('site_id', 1);
+    })
+        ->with([
+            'attendances' => function ($attendance) {
+                $attendance->whereMonth('day', 3);
+            }
+        ])
+        ->get();
+    return view('attendances', ["users" => $users]);
 });
 
 Route::get('/admin/{any?}', function () {

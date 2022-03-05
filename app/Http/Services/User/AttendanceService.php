@@ -2,9 +2,11 @@
 
 namespace App\Http\Services\User;
 
+use App\Exports\SiteAttendanceExport;
 use App\Exports\UserAttendanceExport;
 use App\Models\Attendance;
 use App\Models\Project\Site;
+use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +24,18 @@ class AttendanceService
         $attendances->whereMonth('day', Carbon::parse($request->date)
             ->format('m'));
         return $attendances->paginate(30);
+    }
+
+    public function siteAttendances(Request $request)
+    {
+        $users = User::whereHas('attendances', function ($attendance) use ($request) {
+            $attendance->where('site_id', $request->site_id);
+        })
+            ->with([
+                'attendances' => function ($attendance) use ($request) {
+                    $attendance->whereMonth('day', Carbon::parse($request->date)->format('m'));
+            }]);
+        return $users->paginate(30);
     }
 
     /**
@@ -91,6 +105,15 @@ class AttendanceService
             'excel/user_attendance.xlsx', 'uploads');
         return [
             'file' => url('uploads/excel/user_attendance.xlsx')
+        ];
+    }
+
+    public function exportSiteAttendance(Request $request)
+    {
+        Excel::store(new SiteAttendanceExport($request->site_id, $request->date),
+            'excel/site_attendance.xlsx', 'uploads');
+        return [
+            'file' => url('uploads/excel/site_attendance.xlsx')
         ];
     }
 }
