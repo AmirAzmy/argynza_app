@@ -11,6 +11,7 @@ class HomeController extends Controller
 
     public function __construct(HomeService $homeService)
     {
+        $this->middleware(['auth:api', 'check.role:1,2']);
         $this->service = $homeService;
     }
 
