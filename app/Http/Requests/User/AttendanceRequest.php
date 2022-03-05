@@ -29,6 +29,9 @@ class AttendanceRequest extends FormRequest
             case 'checkin-and-out':
             case 'check-location':
                 return $this->checkInAndOut();
+            case 'export':
+            case 'user-attendances':
+                return $this->userIdValidation();
             default:
                 return [];
         }
@@ -40,6 +43,13 @@ class AttendanceRequest extends FormRequest
             'lat'     => 'required',
             'lng'     => 'required',
             'site_id' => 'required|exists:sites,id',
+        ];
+    }
+
+    private function userIdValidation(): array
+    {
+        return [
+            'user_id' => 'required|exists:users,id',
         ];
     }
 }

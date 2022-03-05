@@ -62,7 +62,8 @@ Route::group([
     ], function () {
         Route::post("/checkin-and-out", "AttendanceController@checkInAndOut");
         Route::post("/check-location", "AttendanceController@checkLocation");
-        Route::post("/export", "AttendanceController@exportUserAttendance");
+        Route::post("/export", "AttendanceController@exportUserAttendances");
+        Route::get("/user-attendances", "AttendanceController@userAttendances");
     });
 
 });

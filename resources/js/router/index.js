@@ -10,6 +10,7 @@ import Content from "../components/Layout/Content";
 import UserIndex from "../views/User/Index"
 import UserCreate from "../views/User/Create"
 import UserEdit from "../views/User/Edit"
+import UserAttendances from "../views/User/Attendances"
 import UserComment from "../views/User/Comments"
 
 import ProjectIndex from "../views/Project/Index"
@@ -68,6 +69,10 @@ function configRoutes() {
                 {
                     path: 'edit/:id',
                     component: UserEdit,
+                },
+                {
+                    path: 'attendances/:id',
+                    component: UserAttendances,
                 },
                 {
                     path: ':id/comments',
@@ -129,9 +134,9 @@ function configRoutes() {
             ]
         },
         {
-            path:"/admin/profile",
+            path: "/admin/profile",
             component: Content,
-            meta:{requiresAuth: true},
+            meta: {requiresAuth: true},
             children: [
                 {
                     path: '/',
@@ -140,7 +145,7 @@ function configRoutes() {
             ]
         },
         {
-            path:"/*",
+            path: "/*",
             component: NotFoundPage,
         }
     ];

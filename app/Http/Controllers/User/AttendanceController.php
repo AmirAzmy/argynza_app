@@ -15,7 +15,15 @@ class AttendanceController extends Controller
     public function __construct(AttendanceService $attendanceService)
     {
         $this->middleware('auth:api');
+        $this->middleware('check.role:1,2')
+            ->only(['exportUserAttendance', 'userAttendances']);
         $this->service = $attendanceService;
+    }
+
+    public function userAttendances(AttendanceRequest $request)
+    {
+        $service = $this->service->userAttendances($request);
+        return Response::successResponse($service);
     }
 
     public function checkInAndOut(AttendanceRequest $request)
@@ -30,7 +38,7 @@ class AttendanceController extends Controller
         return Response::successResponse($service);
     }
 
-    public function exportUserAttendance(AttendanceRequest $request)
+    public function exportUserAttendances(AttendanceRequest $request)
     {
         $service = $this->service->exportUserAttendance($request);
         return Response::successResponse($service);

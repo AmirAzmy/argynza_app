@@ -2,9 +2,10 @@
 
 namespace App\Http\Services\User;
 
-use App\Exports\UsersExport;
+use App\Exports\UserAttendanceExport;
 use App\Models\Attendance;
 use App\Models\Project\Site;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
@@ -13,6 +14,16 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class AttendanceService
 {
+    public function userAttendances(Request $request)
+    {
+        $attendances = Attendance::where('user_id', $request->user_id)
+            ->orderBy('id', 'desc');
+
+        $attendances->whereMonth('day', Carbon::parse($request->date)
+            ->format('m'));
+        return $attendances->paginate(30);
+    }
+
     /**
      * checkin and checkout
      * @param  Request  $request
@@ -76,6 +87,10 @@ class AttendanceService
 
     public function exportUserAttendance(Request $request)
     {
-        return Excel::download(new UsersExport($request->user_id), 'user_attendance.xlsx');
+        Excel::store(new UserAttendanceExport($request->user_id, $request->date),
+            'excel/user_attendance.xlsx', 'uploads');
+        return [
+            'file' => url('uploads/excel/user_attendance.xlsx')
+        ];
     }
 }
