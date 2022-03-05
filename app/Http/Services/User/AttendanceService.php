@@ -58,7 +58,7 @@ class AttendanceService
     {
         $site = Site::findOrFail($request->site_id);
         $distance = $this->calculateDistance((double) $site->lat, (double) $site->lng,
-            (double) $request->lat, (double) $request->long);
+            (double) $request->lat, (double) $request->lng);
         if ($distance > ($site->redius * 1000)) {
             throw new BadRequestHttpException(Lang::get('messages.location_error_msg'));
         }
