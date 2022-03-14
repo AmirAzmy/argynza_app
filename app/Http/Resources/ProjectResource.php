@@ -20,17 +20,13 @@ class ProjectResource extends JsonResource
             'name_en' => $this->name_en,
             'name_ar' => $this->name_ar,
             'image'   => $this->image,
-            'sites'   => $this->formatSites($this->sites),
+            'sites'   => $this->formatSites($this->whenLoaded('sites')),
         ];
     }
 
     private function formatSites($sites)
     {
         $data = [];
-        if (count($sites) == 0) {
-            return $data;
-        }
-
         foreach ($sites as $site) {
             $data[] = [
                 'id'      => $site['id'], 'redius' => $site['redius'],

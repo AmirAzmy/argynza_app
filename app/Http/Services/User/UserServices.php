@@ -43,6 +43,9 @@ class UserServices
         if ($request->active != 2) {
             $users = $users->where('active', $active);
         }
+        if ($request->project_id) {
+            $users = $users->where('project_id', $request->project_id);
+        }
         if ($request->keyword) {
             $users = $users->where('name', 'like', '%'.$request->keyword.'%')
                 ->orWhere('phone', 'like', '%'.$request->keyword.'%');
@@ -52,10 +55,10 @@ class UserServices
 
     public function profile(Request $request)
     {
-        $id = in_array(Auth::user()->type, [3, 4, 5]) ? Auth::id() : ($request->user_id)??Auth::id();
+        $id = in_array(Auth::user()->type, [3, 4, 5]) ? Auth::id() : ($request->user_id) ?? Auth::id();
 
         $user = User::where('id', $id)
-            ->with('project:id,name_en,name_ar,image','todayAttendance')
+            ->with('project:id,name_en,name_ar,image', 'todayAttendance')
             ->withCount('requests')
             ->firstOrFail();
         $user['is_attended'] = $user->checkUserAttendance();
@@ -116,7 +119,6 @@ class UserServices
         }
         return $user;
     }
-
 
 
 }

@@ -43,7 +43,7 @@ class ProjectController extends Controller
                 ->orWhere('name_en', 'like', '%'.$request->keyword.'%');
         }
         if ($request->return_all) {
-            return Response::successResponse($projects->get());
+            return Response::successResponse(ProjectResource::collection($projects->get()));
         }
         return Response::successResponse($projects->paginate(20));
     }
