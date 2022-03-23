@@ -142,4 +142,9 @@ class User extends Authenticatable
             ->select('id', 'user_id', 'day', 'checkin', 'checkout', 'site_id')
             ->with('site');
     }
+
+    public function pushTokens()
+    {
+        return $this->hasMany(PushToken::class);
+    }
 }

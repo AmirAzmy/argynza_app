@@ -3,7 +3,10 @@
 namespace App\Http\Services\Request;
 
 use App\Exceptions\NoPermissionException;
+use App\Models\User\PushToken;
+use App\Models\User\User;
 use App\Notifications\DBNotification;
+use App\ThirdParty\WebNotification;
 use Illuminate\Http\Request;
 use App\Models\Request\Request as EmpRequest;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +16,8 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class RequestService
 {
+    use WebNotification;
+
     public function create(Request $request)
     {
         $request->merge([
@@ -27,8 +32,26 @@ class RequestService
         ]));
         $type = $request->type == 'late_and_leave' ? 'lateAndLeave' : $request->type;
         $empRequest->$type()->create($request->all());
-
+        if ($type != 'reduction') {
+            $this->prepareAndSendNotification($empRequest);
+        }
         return $empRequest;
+    }
+
+    private function prepareAndSendNotification($empRequest)
+    {
+        $admins = User::where('type', 2)->get();
+        $userIds = count($admins) ? $admins->pluck('id')->toArray() : [];
+        $pushTokens = PushToken::whereIn('user_id', $userIds)
+            ->get();
+        $devices = $pushTokens->pluck('push_token')->unique()->toArray();
+//        dump($devices, $userIds);
+        $this->setDevices($devices);
+        $this->setPayload([]);
+        $this->prepareMessageContent('طلب جديد من الموظف'.Auth::user()->name,
+            $empRequest->type_name.' نوعه '.Auth::user()->name.'طلب جديد للموظف ');
+        $this->sendPushMessage();
+        $this->storePushNotification($empRequest, $admins);
     }
 
     public function get($id)
@@ -46,7 +69,19 @@ class RequestService
     {
         $empRequest = EmpRequest::where('id', $id)
             ->firstOrFail();
-        NotificationQueue::send($empRequest->employee()->first(), new DBNotification([
+        $this->storePushNotification($empRequest, $empRequest->employee()->first());
+        return [
+            'is_success' => $empRequest->update([
+                'user_action_id'   => Auth::id(),
+                'status'           => $request->status,
+                'rejection_reason' => $request->rejection_reason
+            ])
+        ];
+    }
+
+    private function storePushNotification($empRequest, $user)
+    {
+        NotificationQueue::send($user, new DBNotification([
             "title_en"   => $empRequest->status,
             "title_ar"   => $empRequest->statusNames[$empRequest->status],
             "body_en"    => $empRequest->types[$empRequest->type]['en'],
@@ -55,13 +90,7 @@ class RequestService
             'actionType' => 'request',
             'actionId'   => $empRequest->id,
         ]));
-        return [
-            'is_success' => $empRequest->update([
-                'user_action_id'   => Auth::id(),
-                'status'           => $request->status,
-                'rejection_reason' => $request->rejection_reason
-            ])
-        ];
+
     }
 
     public function index(Request $request)

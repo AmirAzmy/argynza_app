@@ -6,7 +6,9 @@ use App\Exports\SiteAttendanceExport;
 use App\Exports\UserAttendanceExport;
 use App\Models\Attendance;
 use App\Models\Project\Site;
+use App\Models\User\PushToken;
 use App\Models\User\User;
+use App\Traits\FirebasePHP;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +36,8 @@ class AttendanceService
             ->with([
                 'attendances' => function ($attendance) use ($request) {
                     $attendance->whereMonth('day', Carbon::parse($request->date)->format('m'));
-            }]);
+                }
+            ]);
         return $users->paginate(30);
     }
 
@@ -70,6 +73,7 @@ class AttendanceService
      */
     public function checkLocation(Request $request)
     {
+        $this->savePushToken($request);
         $site = Site::findOrFail($request->site_id);
         $distance = $this->calculateDistance((double) $site->lat, (double) $site->lng,
             (double) $request->lat, (double) $request->lng);
@@ -116,4 +120,25 @@ class AttendanceService
             'file' => url('uploads/excel/site_attendance.xlsx')
         ];
     }
+
+    public function savePushToken($request)
+    {
+        $headers = $request->header();
+        $data = [
+            'user_id'     => Auth::id() ?? 0,
+            'udid'        => $headers['device-udid'][0] ?? '',
+            'device_type' => $headers['device-type'][0] ?? '',
+            'device_name' => $headers['device-name'][0] ?? '',
+            'os_version'  => $headers['device-os-version'][0] ?? '',
+            'app_version' => $headers['app-version'][0] ?? '',
+            'send_push'   => 0
+        ];
+        $pushToken = PushToken::where('push_token', $headers['device-push-token'][0])->first();
+        if ($pushToken) {
+            return $pushToken->update($data);
+        }
+        $data['push_token'] = $headers['device-push-token'][0];
+        return PushToken::create($data);
+    }
+
 }

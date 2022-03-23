@@ -47,8 +47,10 @@ class UserServices
             $users = $users->where('project_id', $request->project_id);
         }
         if ($request->keyword) {
-            $users = $users->where('name', 'like', '%'.$request->keyword.'%')
-                ->orWhere('phone', 'like', '%'.$request->keyword.'%');
+            $users = $users->where(function ($query) use ($request) {
+                $query->where('name', 'like', '%'.$request->keyword.'%')
+                    ->orWhere('phone', 'like', '%'.$request->keyword.'%');
+            });
         }
         return $users->paginate(18);
     }
