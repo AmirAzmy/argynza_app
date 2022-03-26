@@ -8,7 +8,6 @@ use App\Models\Attendance;
 use App\Models\Project\Site;
 use App\Models\User\PushToken;
 use App\Models\User\User;
-use App\Traits\FirebasePHP;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

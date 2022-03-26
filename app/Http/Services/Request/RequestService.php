@@ -6,6 +6,7 @@ use App\Exceptions\NoPermissionException;
 use App\Models\User\PushToken;
 use App\Models\User\User;
 use App\Notifications\DBNotification;
+use App\ThirdParty\AndroidNotification;
 use App\ThirdParty\WebNotification;
 use Illuminate\Http\Request;
 use App\Models\Request\Request as EmpRequest;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class RequestService
 {
-    use WebNotification;
+    use AndroidNotification;
 
     public function create(Request $request)
     {
@@ -48,8 +49,8 @@ class RequestService
 //        dump($devices, $userIds);
         $this->setDevices($devices);
         $this->setPayload([]);
-        $this->prepareMessageContent('طلب جديد من الموظف'.Auth::user()->name,
-            $empRequest->type_name.' نوعه '.Auth::user()->name.'طلب جديد للموظف ');
+        $this->prepareMessageContent(' طلب جديد من الموظف ',
+            '  طلب جديد لموظف نوعه '.$empRequest->types[$empRequest->type]['ar']);
         $this->sendPushMessage();
         $this->storePushNotification($empRequest, $admins);
     }
