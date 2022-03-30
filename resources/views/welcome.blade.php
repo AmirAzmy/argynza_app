@@ -55,8 +55,8 @@
     <div class="container text-center">
 
         <div class="credits text-center">
-            <a href="/terms-and-conditions" style="margin-right: 10px">Terms And Conditions</a>
-            <a href="/privacy">Privacy Policy</a>
+            <a href="terms-and-conditions" style="margin-right: 10px">Terms And Conditions</a>
+            <a href="privacy">Privacy Policy</a>
         </div>
     </div>
 </div>
