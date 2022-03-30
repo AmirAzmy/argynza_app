@@ -17,18 +17,26 @@ use Carbon\Carbon;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/attendances', function () {
-    $users = User::whereHas('attendances', function ($attendance) {
-        $attendance->where('site_id', 1);
-    })
-        ->with([
-            'attendances' => function ($attendance) {
-                $attendance->whereMonth('day', 3);
-            }
-        ])
-        ->get();
-    return view('attendances', ["users" => $users]);
+Route::get('/terms-and-conditions', function () {
+    return view('termsAndConditions');
 });
+
+Route::get('/privacy', function () {
+    return view('privacy');
+});
+
+//Route::get('/attendances', function () {
+//    $users = User::whereHas('attendances', function ($attendance) {
+//        $attendance->where('site_id', 1);
+//    })
+//        ->with([
+//            'attendances' => function ($attendance) {
+//                $attendance->whereMonth('day', 3);
+//            }
+//        ])
+//        ->get();
+//    return view('attendances', ["users" => $users]);
+//});
 
 Route::get('/admin/{any?}', function () {
     return view('index');
