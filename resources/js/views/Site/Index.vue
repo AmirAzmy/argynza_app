@@ -110,7 +110,10 @@ export default {
     return {
       keyword: null,
       project_id: 0,
-      project: null,
+      project: {
+        name_ar:'',
+        name_en:'',
+      },
       perPage: 3,
       currentPage: 1,
       rows: 15,
