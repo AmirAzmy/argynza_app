@@ -56,7 +56,7 @@
                   <span>{{ details.date }}</span>
                 </p>
                 <p class="invoice-info-row"
-                   v-if="item.type=='late_and_leave'||item.type=='late_and_leave'||item.type=='reduction'"
+                   v-if="item.type=='late_and_leave'||item.type=='late_and_leave'||item.type=='reduction'||item.type=='loan'"
                 >
                   <span>المبلغ</span>
                   <span>{{ details.amount }}</span>
